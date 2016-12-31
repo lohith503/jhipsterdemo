@@ -1,0 +1,30 @@
+version: '2'
+services:
+    jhipsterdemo-app:
+        image: jhipsterdemo
+        external_links:
+            - jhipsterdemo-cassandra:cassandra
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATA_CASSANDRA_CONTACTPOINTS=cassandra
+            - JHIPSTER_SLEEP=30 # gives time for the cassandra cluster to start and execute the migration scripts
+        ports:
+            - 8080:8080
+    jhipsterdemo-cassandra:
+        extends:
+            file: cassandra-cluster.yml
+            service: jhipsterdemo-cassandra
+    jhipsterdemo-cassandra-node:
+        image: cassandra:2.2.7
+        links:
+            - jhipsterdemo-cassandra:seed
+        environment:
+            - CASSANDRA_SEEDS=seed
+    jhipsterdemo-cassandra-migration:
+        extends:
+            file: cassandra-migration.yml
+            service: jhipsterdemo-cassandra-migration
+        links:
+            - jhipsterdemo-cassandra
+        environment:
+            - CREATE_KEYSPACE_SCRIPT=create-keyspace-prod.cql
