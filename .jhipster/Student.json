@@ -1,0 +1,19 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "first_name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "registration_number",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161231110439",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "student",
+    "pagination": "no"
+}
